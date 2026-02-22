@@ -145,3 +145,4 @@ http://localhost:8080
 ## Conclusion
 
 This project demonstrates the design and implementation of a backend system for expense management, including data modeling, REST API development, persistence, and algorithmic optimization.
+
