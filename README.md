@@ -2,50 +2,53 @@
 
 ## Overview
 
-This project implements a RESTful API for managing shared expenses among groups and computing optimal debt settlements. The system allows users to record expenses, split costs among participants, calculate individual balances, and determine the minimum set of transactions required to settle all outstanding debts.
+This project implements a RESTful backend service for managing shared expenses within groups and computing optimal settlements among participants. The system records expenses, distributes costs across members, calculates net balances, and determines the minimal set of transactions required to settle outstanding debts.
 
-The application models the core functionality of expense-sharing platforms such as Splitwise, with a focus on backend design, correctness, and efficiency.
+The implementation focuses on correctness, simplicity, and clarity of design while demonstrating core backend development concepts using Go.
 
 ---
 
-## Objectives
+## Problem Context
 
-* Provide a structured system for tracking shared expenses
-* Automate fair cost distribution among group members
-* Compute net balances for each participant
-* Generate optimal settlement transactions
-* Demonstrate backend development using Go
+When multiple individuals share expenses, determining who owes whom can quickly become complex, especially across multiple transactions. This system automates that process by:
+
+* Tracking payments made within a group
+* Calculating each member’s share
+* Computing net balances
+* Generating an efficient settlement plan
 
 ---
 
 ## System Architecture
 
-The application follows a layered architecture:
+The application follows a layered backend architecture:
 
-Client → REST API (Gin) → Business Logic → Database (SQLite)
+Client → HTTP API (Gin) → Application Logic → Database (SQLite)
+
+The API can be consumed by any frontend client, mobile application, or external service.
 
 ---
 
-## Data Model
+## Core Entities
 
-The system is based on the following entities:
+The system models the domain using the following entities:
 
-* **User** — Represents an individual participant
-* **Group** — Represents a collection of users sharing expenses
-* **GroupMember** — Associates users with groups
-* **Expense** — Records a payment made within a group
-* **Split** — Represents each user's share of an expense
+* **User** — An individual participant
+* **Group** — A collection of users sharing expenses
+* **GroupMember** — Association between users and groups
+* **Expense** — A payment recorded within a group
+* **Split** — Individual share of an expense
 
 ---
 
 ## Technology Stack
 
-| Component            | Technology  |
-| -------------------- | ----------- |
-| Programming Language | Go (Golang) |
-| Web Framework        | Gin         |
-| ORM                  | GORM        |
-| Database             | SQLite      |
+| Component     | Technology  |
+| ------------- | ----------- |
+| Language      | Go (Golang) |
+| Web Framework | Gin         |
+| ORM           | GORM        |
+| Database      | SQLite      |
 
 ---
 
@@ -53,7 +56,7 @@ The system is based on the following entities:
 
 ### User Management
 
-* `POST /users` — Create a new user
+* `POST /users` — Create a user
 
 ### Group Management
 
@@ -70,25 +73,25 @@ The system is based on the following entities:
 
 ---
 
-## Settlement Algorithm
+## Settlement Methodology
 
-The system computes settlements using a greedy optimization approach:
+The settlement computation is based on net balance analysis.
 
-1. Calculate the net balance of each participant
-2. Classify users as creditors (positive balance) or debtors (negative balance)
-3. Match the largest debtor with the largest creditor
-4. Transfer the minimum required amount
-5. Repeat until all balances are settled
+1. Determine how much each participant has paid versus their share
+2. Classify participants as creditors or debtors
+3. Match debtors to creditors iteratively
+4. Transfer the minimum required amount per step
+5. Continue until all balances reach zero
 
-This approach minimizes the number of transactions required to clear all debts.
+This approach reduces the total number of transactions required to clear debts.
 
 **Time Complexity:** O(n log n)
 
 ---
 
-## Example Scenario
+## Example
 
-Three users share an expense of ₹900 paid by one member.
+Three users share a ₹900 expense paid entirely by one participant.
 
 Each user’s share = ₹300
 
@@ -98,51 +101,61 @@ Net balances:
 * User B: −300
 * User C: −300
 
-Optimal settlements:
+Settlement:
 
 * User B pays User A ₹300
 * User C pays User A ₹300
 
 ---
 
-## Setup Instructions
+## Setup and Execution
 
 ### Prerequisites
 
-* Go (version 1.18 or higher)
+* Go 1.18 or higher
 
-### Steps to Run
+### Steps
 
 ```bash
 go mod tidy
 go run .
 ```
 
-The server will start on:
+The server starts on:
 
 http://localhost:8080
 
 ---
 
-## Limitations
+## Design Considerations
 
-* Supports equal expense splitting only
-* No authentication or authorization
-* Single-instance deployment
+* SQLite chosen for portability and ease of setup
+* RESTful architecture for extensibility
+* Minimal dependencies for reliability
+* Clear separation of data models and business logic
 
 ---
 
-## Future Enhancements
+## Limitations
 
-* Unequal split support
+* Equal splitting only
+* No authentication or authorization
+* Single-node deployment
+* No persistent user management beyond database storage
+
+---
+
+## Potential Extensions
+
+* Custom split ratios
 * Payment integration
 * User authentication
-* Web or mobile interface
-* Distributed deployment
+* Real-time notifications
+* Web or mobile client interface
+* Scalable database backend
 
 ---
 
 ## Conclusion
 
-This project demonstrates the design and implementation of a backend system for expense management, including data modeling, REST API development, persistence, and algorithmic optimization.
-
+This project demonstrates the design and implementation of a backend system for expense management, combining data modeling, API development, persistence, and algorithmic computation in a cohesive manner.
