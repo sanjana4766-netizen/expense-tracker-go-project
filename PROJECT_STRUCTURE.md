@@ -1,14 +1,21 @@
-# Project Structure
+## Project Structure
 
-This project follows a simple file-based organization suitable for a small backend service.
-
-* main.go — Application entry point and routing setup
-* models.go — Data structures representing core entities
-* handlers.go — HTTP request handlers for API endpoints
-* settlement.go — Logic for computing optimal settlements
-* README.md — Overview and usage instructions
-* DESIGN.md — Architectural description
-* ENGINEERING_NOTES.md — Implementation rationale
-* go.mod / go.sum — Dependency configuration
-
-The structure is intentionally minimal to keep the project easy to navigate and understand.
+```
+expense-tracker-go-project/
+│
+├── main.go              # Application entry point
+├── go.mod               # Module definition & dependencies
+├── go.sum               # Dependency checksums
+│
+├── models.go            # Database models and schema definitions
+├── handlers.go          # HTTP request handlers
+├── settlement.go        # Debt settlement algorithm logic
+│
+├── DESIGN.md            # System design documentation
+├── README.md            # Project overview and instructions
+├── AI_PROMPTS.md        # Prompts used during development
+│
+├── expense.db           # SQLite database file (auto-generated)
+│
+└── docs/                # Supporting documentation (optional)
+```
