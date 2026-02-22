@@ -1,23 +1,45 @@
 # System Design
 
-## Architecture
-Client → REST API (Gin) → Service Logic → Database (SQLite)
+## Architecture Overview
 
-## Data Model
-- User
-- Group
-- GroupMember
-- Expense
-- Split
+The application follows a three-layer architecture:
 
-## Workflow
-1. Users join groups
-2. Expenses are recorded
-3. Amount is split among members
-4. Net balances computed
-5. Greedy algorithm generates minimal settlement transactions
+1. Presentation Layer — REST API endpoints implemented using Gin
+2. Application Layer — Business logic for expense processing and settlement
+3. Data Layer — Persistent storage using SQLite via GORM
 
-## Design Decisions
-- SQLite chosen for simplicity and portability
-- RESTful endpoints for scalability
-- GORM used for ORM abstraction
+---
+
+## Design Principles
+
+* Simplicity and clarity
+* Maintainability
+* Correct handling of shared expenses
+* Efficient computation of settlements
+
+---
+
+## Key Design Decisions
+
+* SQLite selected for lightweight, zero-configuration deployment
+* REST architecture for modularity and scalability
+* GORM used for object–relational mapping
+* Greedy algorithm chosen for efficient settlement computation
+
+---
+
+## Limitations
+
+* Equal splitting only
+* No user authentication
+* Not optimized for distributed environments
+
+---
+
+## Possible Extensions
+
+* Support for custom split ratios
+* Role-based access control
+* Integration with payment services
+* Scalable database backend
+* Frontend user interface
